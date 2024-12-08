@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import FeaturedTours from '../components/FeaturedTours.astro';
+---
+
+<Layout title="Welcome to Bhutan">
+	<Hero />
+	<FeaturedTours />
+	
+	<section class="py-16 bg-white">
+		<div class="container mx-auto px-4">
+			<h2 class="text-3xl font-bold text-center mb-12">Why Choose Us?</h2>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				<div class="text-center">
+					<div class="text-4xl text-green-600 mb-4">🏔️</div>
+					<h3 class="text-xl font-bold mb-2">Local Expertise</h3>
+					<p class="text-gray-600">Native Bhutanese guides with deep cultural knowledge</p>
+				</div>
+				<div class="text-center">
+					<div class="text-4xl text-green-600 mb-4">🏯</div>
+					<h3 class="text-xl font-bold mb-2">Authentic Experiences</h3>
+					<p class="text-gray-600">Immersive cultural tours and genuine local interactions</p>
+				</div>
+				<div class="text-center">
+					<div class="text-4xl text-green-600 mb-4">🌿</div>
+					<h3 class="text-xl font-bold mb-2">Sustainable Tourism</h3>
+					<p class="text-gray-600">Eco-friendly practices and community support</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>

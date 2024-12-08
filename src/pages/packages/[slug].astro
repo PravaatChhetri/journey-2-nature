@@ -1,0 +1,100 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TourHero from '../../components/TourHero.astro';
+import RoadmapItinerary from '../../components/RoadmapItinerary.astro';
+import PhotoGallery from '../../components/PhotoGallery.astro';
+import TourInclusions from '../../components/TourInclusions.astro';
+import AvailableDates from '../../components/AvailableDates.astro';
+import ReviewCard from '../../components/ReviewCard.astro';
+import RelatedTours from '../../components/RelatedTours.astro';
+import { getTourData } from '../../utils/tourData';
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'cultural-heritage-tour' } },
+    { params: { slug: 'himalayan-trek-adventure' } },
+    { params: { slug: 'festival-monastery-tour' } }
+  ];
+}
+
+const { slug } = Astro.params;
+const tour = getTourData(slug);
+
+if (!tour) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={tour.title}>
+  <TourHero 
+    title={tour.title}
+    duration={tour.duration}
+    image={tour.image}
+  />
+  
+  <div class="container mx-auto px-4 py-12">
+    <!-- Tour Description -->
+    <div class="max-w-3xl mx-auto mb-12">
+      <p class="text-lg text-gray-700 mb-6">{tour.description}</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div>
+          <h3 class="text-2xl font-bold mb-4">Tour Highlights</h3>
+          <ul class="space-y-2">
+            {tour.highlights.map(highlight => (
+              <li class="flex items-start gap-2">
+                <span class="text-green-600 mt-1">•</span>
+                <span>{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <TourInclusions inclusions={tour.inclusions} />
+      </div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Tour Gallery</h2>
+      <PhotoGallery images={tour.gallery} />
+    </section>
+
+    <!-- Itinerary -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Detailed Itinerary</h2>
+      <RoadmapItinerary days={tour.itinerary} />
+    </section>
+
+    <!-- Available Dates -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Available Dates</h2>
+      <AvailableDates dates={tour.dates} />
+    </section>
+
+    <!-- Reviews -->
+    {tour.reviews && tour.reviews.length > 0 && (
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold mb-6">Customer Reviews</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {tour.reviews.map(review => (
+            <ReviewCard {...review} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Book Now CTA -->
+    <section class="text-center mb-16">
+      <a href="/contact" class="inline-block bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors">
+        Book This Tour
+      </a>
+      <p class="mt-4 text-gray-600">
+        Have questions? Contact us at <a href="tel:+97512345678" class="text-green-600 hover:underline">+975 12345678</a>
+        or <a href="mailto:info@journey2nature.bt" class="text-green-600 hover:underline">info@journey2nature.bt</a>
+      </p>
+    </section>
+  </div>
+
+  <!-- Related Tours -->
+  <RelatedTours currentTourSlug={slug} />
+</Layout>

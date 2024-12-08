@@ -1,0 +1,23 @@
+---
+import NavMenu from './navigation/NavMenu.astro';
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Tour Packages', href: '/packages' },
+  { label: 'About Bhutan', href: '/about' },
+  { label: 'Contact', href: '/contact' }
+];
+---
+<header class="fixed top-0 left-0 right-0 z-40 bg-[#176534]">
+  <div class="container mx-auto px-4 py-6">
+    <div class="flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-[#fff] hover:text-[#fff] transition-colors">
+        Travel with Journey 2 Nature
+      </a>
+      <NavMenu items={navItems} />
+    </div>
+  </div>
+</header>
+
+<!-- Spacer to prevent content from going under fixed header -->
+<div class="h-[88px]"></div>

@@ -1,0 +1,37 @@
+---
+import TourCard from './TourCard.astro';
+
+const tours = [
+  {
+    title: "Cultural Heritage Tour",
+    duration: "7 Days",
+    price: "From $1,999",
+    image: "/images/cultural-tour.jpg",
+    description: "Explore ancient monasteries and experience Bhutanese traditions"
+  },
+  {
+    title: "Himalayan Trek Adventure",
+    duration: "10 Days",
+    price: "From $2,499",
+    image: "/images/trek-tour.jpg",
+    description: "Trek through stunning mountain landscapes and remote villages"
+  },
+  {
+    title: "Festival & Monastery Tour",
+    duration: "5 Days",
+    price: "From $1,699",
+    image: "/images/festival-tour.jpg",
+    description: "Witness colorful festivals and explore sacred monasteries"
+  }
+];
+---
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12">Featured Tour Packages</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {tours.map(tour => (
+        <TourCard {...tour} />
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,45 @@
+---
+import ItineraryDay from './ItineraryDay.astro';
+
+interface Day {
+  title: string;
+  activities: string[];
+  meals: string[];
+  accommodation: string;
+}
+
+interface Props {
+  days: Day[];
+}
+
+const { days } = Astro.props;
+---
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
+  {days.map((day, index) => (
+    <ItineraryDay
+      day={index + 1}
+      title={day.title}
+      activities={day.activities}
+      meals={day.meals}
+      accommodation={day.accommodation}
+    />
+  ))}
+</div>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+---
+<form class="space-y-6">
+  <div>
+    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+    <input type="text" id="name" name="name" required 
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+  </div>
+  <div>
+    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+    <input type="email" id="email" name="email" required 
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+  </div>
+  <div>
+    <label for="tour" class="block text-sm font-medium text-gray-700">Preferred Tour</label>
+    <select id="tour" name="tour" 
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+      <option value="">Select a tour</option>
+      <option value="cultural">Cultural Heritage Tour</option>
+      <option value="trek">Himalayan Trek Adventure</option>
+      <option value="festival">Festival & Monastery Tour</option>
+    </select>
+  </div>
+  <div>
+    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+    <textarea id="message" name="message" rows="4" required
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"></textarea>
+  </div>
+  <button type="submit" 
+    class="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+    Send Message
+  </button>
+</form>

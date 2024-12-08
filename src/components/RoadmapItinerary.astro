@@ -1,0 +1,110 @@
+---
+import type { Day } from '../utils/tourData';
+
+interface Props {
+  days: Day[];
+}
+
+const { days } = Astro.props;
+---
+
+<div class="relative py-12">
+  <!-- Road Path -->
+  <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-gray-200 hidden md:block">
+    <div class="absolute left-0 right-0 top-0 bottom-0 bg-gradient-to-b from-[#00A651] to-[#00A651] bg-[length:100%_50%]"></div>
+  </div>
+
+  <!-- Itinerary Days -->
+  <div class="space-y-12">
+    {days.map((day, index) => (
+      <div class="relative group">
+        <!-- Milestone Circle -->
+        <div class="absolute left-1/2 -translate-x-1/2 w-6 h-6 hidden md:flex">
+          <div class="w-full h-full bg-[#00A651] rounded-full flex items-center justify-center shadow-lg z-10">
+            <span class="text-xs font-bold text-white">{index + 1}</span>
+          </div>
+        </div>
+
+        <!-- Content Card -->
+        <div class={`ml-0 md:w-[calc(50%-2rem)] ${index % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'} bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 p-6 group-hover:scale-[1.02]`}>
+          <div class="flex flex-col gap-4">
+            <!-- Day Header -->
+            <div class="flex items-center gap-4">
+              <div class="md:hidden flex-shrink-0">
+                <span class="inline-block bg-[#00A651] text-white px-3 py-1 rounded-full text-sm font-bold">
+                  Day {index + 1}
+                </span>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800">{day.title}</h3>
+            </div>
+
+            <!-- Content Rows -->
+            <div class="space-y-6">
+              <!-- Activities Row -->
+              <div class="flex items-start gap-2">
+                <div class="flex-shrink-0 w-32">
+                  <h4 class="font-semibold text-[#00A651] flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                    </svg>
+                    Activities
+                  </h4>
+                </div>
+                <ul class="flex-grow list-disc list-inside space-y-1 text-gray-600">
+                  {day.activities.map(activity => (
+                    <li>{activity}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- Meals Row -->
+              <div class="flex items-start gap-2">
+                <div class="flex-shrink-0 w-32">
+                  <h4 class="font-semibold text-[#00A651] flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+                    </svg>
+                    Meals
+                  </h4>
+                </div>
+                <ul class="flex-grow list-disc list-inside space-y-1 text-gray-600">
+                  {day.meals.map(meal => (
+                    <li>{meal}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- Accommodation Row -->
+              <div class="flex items-start gap-2">
+                <div class="flex-shrink-0 w-32">
+                  <h4 class="font-semibold text-[#00A651] flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                    </svg>
+                    Stay
+                  </h4>
+                </div>
+                <p class="flex-grow text-gray-600">{day.accommodation}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connecting Line (visible only on desktop) -->
+          <div class={`absolute top-1/2 hidden md:block h-[2px] bg-[#00A651] w-8 ${index % 2 === 0 ? 'right-0 translate-x-full' : 'left-0 -translate-x-full'}`}></div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .space-y-12 > div {
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--index) * 0.1s);
+  }
+</style>

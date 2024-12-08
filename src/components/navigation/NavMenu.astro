@@ -1,0 +1,289 @@
+---
+interface Props {
+  items: {
+    label: string;
+    href: string;
+    icon?: string;
+  }[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="nav-menu">
+  <button
+    type="button"
+    id="menuToggle"
+    class="menu-toggle lg:hidden"
+    aria-label="Toggle navigation menu"
+  >
+    <span class="hamburger"></span>
+  </button>
+
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <div class="nav-content" id="navContent">
+    <ul class="nav-list">
+      {items.map(item => (
+        <li>
+          <a 
+            href={item.href}
+            class="nav-link"
+            aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
+          >
+            {item.icon && (
+              <span class="nav-icon" aria-hidden="true">
+                {item.icon}
+              </span>
+            )}
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .nav-menu {
+    position: relative;
+    z-index: 50;
+  }
+
+  .menu-toggle {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 60;
+    transition: background-color 0.3s ease;
+  }
+
+  @media (max-width: 1023px) {
+    .menu-toggle {
+      display: flex;
+    }
+  }
+
+  .hamburger {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #00A651;
+    transition: all 0.3s ease;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: #00A651;
+    transition: all 0.3s ease;
+  }
+
+  .hamburger::before {
+    transform: translateY(-8px);
+  }
+
+  .hamburger::after {
+    transform: translateY(8px);
+  }
+
+  /* Hamburger animation */
+  :global(.menu-open) .hamburger {
+    background-color: transparent;
+  }
+
+  :global(.menu-open) .hamburger::before {
+    transform: rotate(45deg);
+  }
+
+  :global(.menu-open) .hamburger::after {
+    transform: rotate(-45deg);
+  }
+
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    z-index: 40;
+  }
+
+  :global(.menu-open) .nav-overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-content {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background-color: rgba(23, 101, 52, 0.85);
+    backdrop-filter: blur(12px);
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 5rem 1.5rem 1.5rem;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 50;
+    overflow-y: auto;
+  }
+
+  :global(.menu-open) .nav-content {
+    right: 0;
+  }
+  
+
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .nav-link:hover {
+    background-color: rgba(0, 166, 81, 0.1);
+    color: #4ade80;
+  }
+
+  .nav-link[aria-current="page"] {
+    color: #4ade80;
+    background-color: rgba(0, 166, 81, 0.15);
+  }
+
+  .nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  /* Desktop styles */
+  @media (min-width: 1024px) {
+    .nav-content {
+      position: static;
+      width: auto;
+      height: auto;
+      right: 0;
+      padding: 0;
+      box-shadow: none;
+      background-color: transparent;
+      backdrop-filter: none;
+      overflow: visible;
+    }
+
+    .nav-list {
+      flex-direction: row;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      padding: 0.5rem;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      background-color: transparent;
+      color: #4ade80;
+    }
+
+    .nav-link[aria-current="page"] {
+      background-color: transparent;
+      color: #4ade80;
+    }
+
+    .nav-link[aria-current="page"]::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      background-color: currentColor;
+      border-radius: 1px;
+    }
+  }
+</style>
+
+<script>
+  function setupNavigation() {
+    const menuToggle = document.getElementById('menuToggle');
+    const navOverlay = document.getElementById('navOverlay');
+    const navContent = document.getElementById('navContent');
+    
+    function toggleMenu() {
+      document.documentElement.classList.toggle('menu-open');
+      document.body.style.overflow = document.documentElement.classList.contains('menu-open') ? 'hidden' : '';
+    }
+
+    function closeMenu() {
+      document.documentElement.classList.remove('menu-open');
+      document.body.style.overflow = '';
+    }
+
+    menuToggle?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    navOverlay?.addEventListener('click', closeMenu);
+
+    // Close menu when clicking navigation links
+    navContent?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    // Handle resize events
+    let resizeTimer: number;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        if (window.innerWidth >= 1024) {
+          closeMenu();
+        }
+      }, 250);
+    });
+  }
+
+  // Initialize navigation when the DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNavigation);
+  } else {
+    setupNavigation();
+  }
+</script>

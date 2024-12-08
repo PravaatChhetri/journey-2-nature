@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Layout title="Contact Us">
+  <PageHeader 
+    title="Contact Us" 
+    description="Get in touch to plan your Bhutanese adventure"
+  />
+  
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div>
+          <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
+          <p class="text-gray-600 mb-8">
+            We're here to help you plan your perfect Bhutanese adventure. Fill out the form and we'll get back to you as soon as possible.
+          </p>
+          
+          <div class="space-y-4">
+            <div>
+              <h3 class="text-xl font-bold mb-2">Office Location</h3>
+              <p class="text-gray-600">
+                Norzin Lam, Thimphu<br>
+                Kingdom of Bhutan
+              </p>
+            </div>
+            
+            <div>
+              <h3 class="text-xl font-bold mb-2">Contact Information</h3>
+              <p class="text-gray-600">
+                Phone: +975 2 123456<br>
+                Email: info@journey2nature.bt
+              </p>
+            </div>
+            
+            <div>
+              <h3 class="text-xl font-bold mb-2">Business Hours</h3>
+              <p class="text-gray-600">
+                Monday - Friday: 9:00 AM - 5:00 PM<br>
+                Saturday: 9:00 AM - 1:00 PM<br>
+                Sunday: Closed
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
